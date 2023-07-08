@@ -4,11 +4,12 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
-
+#include <windows.h>
 
 
 using std::endl;
 using std::string;
+
 
 class Adress {
 private:
@@ -19,8 +20,8 @@ private:
 
 public:
 
-    //конструктор без параметров
-    Adress() :city_name_("unknown"), street_name_("unknown"), num_house_(0), num_flat_(0) {}
+    //конструктор без параметров для массива - иначе не получается
+    Adress() :city_name_(), street_name_(), num_house_(), num_flat_() {}
 
     //конструктор с параметрами
     Adress(string city_name_, string street_name_, int num_house_, int num_flat_) :
@@ -64,11 +65,10 @@ public:
     }
     //доступ и запись в массив.
     void AcsessSetData() {
-
+        
         std::ifstream in("in.txt");
         if (!in.is_open()) std::exit(0);
         int first; in >> first;
-
         Adress* adress_arr = new Adress[first];//создаем массив
 
         for (int i = 0; i < first; i++) {  //читаем из файла в массив
@@ -84,15 +84,21 @@ public:
 
         delete[] adress_arr;
         in.close();
-
-
-
     }
+
+    
 };
 int main()
 {
+    std::ifstream in("in.txt");
+    if (!in.is_open()) std::exit(0); 
+    int f; in >> f;
 
-    Adress adress("unknown", "unknown", 0, 0);
+    string nc, ns; int nh, nf; 
+    in >> nc >> ns >> nh >> nf; 
+    Adress adress(nc, ns, nh, nf);    
+    in.close();
+    
     adress.AcsessSetData();
 
     return 0;
