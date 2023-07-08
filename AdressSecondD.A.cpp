@@ -17,11 +17,10 @@ private:
     string street_name_;
     int num_house_;
     int num_flat_;
+    //конструктор без параметров для массива
+    Adress() :city_name_(), street_name_(), num_house_(), num_flat_() {}
 
 public:
-
-    //конструктор без параметров для массива - иначе не получается
-    Adress() :city_name_(), street_name_(), num_house_(), num_flat_() {}
 
     //конструктор с параметрами
     Adress(string city_name_, string street_name_, int num_house_, int num_flat_) :
@@ -45,7 +44,8 @@ public:
 
      void CitySort(Adress *arr, int size) {
 
-  //в закоментированном ниже пришлось бы добавить кучу кода чтобы все поля передвинуть,поэтому использовал лямбды 
+  //в закоментированном ниже пришлось бы добавить кучу кода чтобы все поля передвинуть - использовал std::sort 
+
          /*  string keeper;
           for(int i = 1; i < size; i++)
               for (int j = size - 1; j >= i; j--) {
@@ -60,9 +60,9 @@ public:
          std::sort(arr,arr + size, [](const Adress& left, const Adress& right) {
              return left.city_name_ < right.city_name_;
              });
-
-            
+             
     }
+
     //доступ и запись в массив.
     void AcsessSetData() {
         
@@ -90,6 +90,7 @@ public:
 };
 int main()
 {
+    //создаем объект класса из данных файла
     std::ifstream in("in.txt");
     if (!in.is_open()) std::exit(0); 
     int f; in >> f;
