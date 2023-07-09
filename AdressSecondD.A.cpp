@@ -20,15 +20,8 @@ private:
     //конструктор без параметров для массива
     Adress() :city_name_(), street_name_(), num_house_(), num_flat_() {}
 
-public:
-
-    //конструктор с параметрами
-    Adress(string city_name_, string street_name_, int num_house_, int num_flat_) :
-        city_name_(city_name_), street_name_(street_name_), num_house_(num_house_), num_flat_(num_flat_)
-    {}
-
     //вывод в файл  
-    void Get_Output_Address(Adress *arr, int first) {
+    void Get_Output_Address(Adress* arr, int first) {
         std::ofstream  out("out.txt");
         out << first << endl;
         for (int i = 0; i < first; i++) {
@@ -42,26 +35,35 @@ public:
 
     //сортируем
 
-     void CitySort(Adress *arr, int size) {
+    void CitySort(Adress* arr, int size) {
 
-  //в закоментированном ниже пришлось бы добавить кучу кода чтобы все поля передвинуть - использовал std::sort 
+        //в закоментированном ниже пришлось бы добавить кучу кода чтобы все поля передвинуть - использовал std::sort 
 
-         /*  string keeper;
-          for(int i = 1; i < size; i++)
-              for (int j = size - 1; j >= i; j--) {
-                  if (arr[j - 1].city_name_ > arr[j].city_name_) {
-                      keeper = arr[j-1].city_name_;
-                      arr[j - 1].city_name_ = arr[j].city_name_;
-                      arr[j].city_name_ = keeper;
-                  }
+               /*  string keeper;
+                for(int i = 1; i < size; i++)
+                    for (int j = size - 1; j >= i; j--) {
+                        if (arr[j - 1].city_name_ > arr[j].city_name_) {
+                            keeper = arr[j-1].city_name_;
+                            arr[j - 1].city_name_ = arr[j].city_name_;
+                            arr[j].city_name_ = keeper;
+                        }
 
-              }*/   
+                    }*/
 
-         std::sort(arr,arr + size, [](const Adress& left, const Adress& right) {
-             return left.city_name_ < right.city_name_;
-             });
-             
+        std::sort(arr, arr + size, [](const Adress& left, const Adress& right) {
+            return left.city_name_ < right.city_name_;
+            });
+
     }
+
+public:
+
+    //конструктор с параметрами
+    Adress(string city_name_, string street_name_, int num_house_, int num_flat_) :
+        city_name_(city_name_), street_name_(street_name_), num_house_(num_house_), num_flat_(num_flat_)
+    {}
+
+   
 
     //доступ и запись в массив.
     void AcsessSetData() {
@@ -78,7 +80,7 @@ public:
             in >> adress_arr[i].num_flat_;
         }
 
-        CitySort(adress_arr, first);//сортируем по неубыванию
+        CitySort(adress_arr, first);//сортируем
         
         Get_Output_Address(adress_arr, first);//пишем в файл
 
