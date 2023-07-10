@@ -17,7 +17,7 @@ private:
     string street_name_;
     int num_house_;
     int num_flat_;
-    //конструктор без параметров для массива
+    //конструктор без параметров для создания массива
     Adress() :city_name_(), street_name_(), num_house_(), num_flat_() {}      
       
 public:
@@ -28,14 +28,14 @@ public:
     {}  
 
     //ввод из файла, сортировка и вывод в файл
-    void Get_Output_Address() {
+    static void Get_Output_Address() {
         
         std::ifstream in("in.txt");
         if (!in.is_open()) std::exit(0);
         int size; in >> size;
 
         //создаем массив
-        Adress* adress_arr = new Adress[size];
+        Adress* adress_arr = new Adress[size]{};
 
         //читаем из файла в массив
         for (int i = 0; i < size; i++) {  
@@ -69,17 +69,8 @@ public:
 };
 int main()
 {
-    //создаем объект класса из данных файла для обращения к методу
-    std::ifstream in("in.txt");
-    if (!in.is_open()) std::exit(0); 
-    int f; in >> f;
-
-    string nc, ns; int nh, nf; 
-    in >> nc >> ns >> nh >> nf; 
-    Adress adress(nc, ns, nh, nf);    
-    in.close();
-    
-    adress.Get_Output_Address();
+    //вызываем статический метод ввода-вывода данных
+    Adress::Get_Output_Address();
 
     return 0;
 }
