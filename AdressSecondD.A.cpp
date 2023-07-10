@@ -18,72 +18,49 @@ private:
     int num_house_;
     int num_flat_;
     //конструктор без параметров для массива
-    Adress() :city_name_(), street_name_(), num_house_(), num_flat_() {}
-
-    //вывод в файл  
-    void Get_Output_Address(Adress* arr, int first) {
-        std::ofstream  out("out.txt");
-        out << first << endl;
-        for (int i = 0; i < first; i++) {
-
-            out << arr[i].city_name_ << ", " << arr[i].street_name_ << ", " << arr[i].num_house_ << ", "
-                << arr[i].num_flat_ << endl;
-        }
-
-        out.close();
-    }
-
-    //сортируем
-
-    void CitySort(Adress* arr, int size) {
-
-        //в закоментированном ниже пришлось бы добавить кучу кода чтобы все поля передвинуть - использовал std::sort 
-
-               /*  string keeper;
-                for(int i = 1; i < size; i++)
-                    for (int j = size - 1; j >= i; j--) {
-                        if (arr[j - 1].city_name_ > arr[j].city_name_) {
-                            keeper = arr[j-1].city_name_;
-                            arr[j - 1].city_name_ = arr[j].city_name_;
-                            arr[j].city_name_ = keeper;
-                        }
-
-                    }*/
-
-        std::sort(arr, arr + size, [](const Adress& left, const Adress& right) {
-            return left.city_name_ < right.city_name_;
-            });
-
-    }
-
+    Adress() :city_name_(), street_name_(), num_house_(), num_flat_() {}      
+      
 public:
 
     //конструктор с параметрами
     Adress(string city_name_, string street_name_, int num_house_, int num_flat_) :
         city_name_(city_name_), street_name_(street_name_), num_house_(num_house_), num_flat_(num_flat_)
-    {}
+    {}  
 
-   
-
-    //доступ и запись в массив.
-    void AcsessSetData() {
+    //ввод из файла, сортировка и вывод в файл
+    void Get_Output_Address() {
         
         std::ifstream in("in.txt");
         if (!in.is_open()) std::exit(0);
-        int first; in >> first;
-        Adress* adress_arr = new Adress[first];//создаем массив
+        int size; in >> size;
 
-        for (int i = 0; i < first; i++) {  //читаем из файла в массив
+        //создаем массив
+        Adress* adress_arr = new Adress[size];
+
+        //читаем из файла в массив
+        for (int i = 0; i < size; i++) {  
             in >> adress_arr[i].city_name_;
             in >> adress_arr[i].street_name_;
             in >> adress_arr[i].num_house_;
             in >> adress_arr[i].num_flat_;
         }
 
-        CitySort(adress_arr, first);//сортируем
-        
-        Get_Output_Address(adress_arr, first);//пишем в файл
+        //сортируем
+        std::sort(adress_arr, adress_arr + size, [](const Adress& left, const Adress& right) {
+            return left.city_name_ < right.city_name_;
+            });    
+         
+        //вывод в файл     
+        std::ofstream  out("out.txt");
+        out << size << endl;
+        for (int i = 0; i < size; i++) {
 
+          out << adress_arr[i].city_name_ << ", " << adress_arr[i].street_name_ << ", " << adress_arr[i].num_house_ << ", "
+              << adress_arr[i].num_flat_ << endl;
+        }
+
+        out.close();
+            
         delete[] adress_arr;
         in.close();
     }
@@ -92,7 +69,7 @@ public:
 };
 int main()
 {
-    //создаем объект класса из данных файла
+    //создаем объект класса из данных файла для обращения к методу
     std::ifstream in("in.txt");
     if (!in.is_open()) std::exit(0); 
     int f; in >> f;
@@ -102,7 +79,7 @@ int main()
     Adress adress(nc, ns, nh, nf);    
     in.close();
     
-    adress.AcsessSetData();
+    adress.Get_Output_Address();
 
     return 0;
 }
